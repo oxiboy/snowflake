@@ -51,3 +51,5 @@ jobs:
 
       - name: Execute data quality test on tester dbt project object in ${{ vars.SNOWFLAKE_DATABASE }}.${{ vars.SNOWFLAKE_SCHEMA }}
         run: snow dbt execute -x my_tester_dbt_project_object_gh_action test --target dev
+
+        
