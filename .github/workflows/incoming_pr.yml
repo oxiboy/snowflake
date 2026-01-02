@@ -12,7 +12,7 @@ permissions:
 jobs:
   run-snowflake-test-dbt-job:
     name: "Run on Incoming PR"
-    runs-on: ubuntu-latest
+    runs-on: test
     environment: prod # Must match the OIDC subject's environment
     env:
       SNOWFLAKE_CLI_FEATURES_ENABLE_DBT: true
@@ -41,7 +41,7 @@ jobs:
       # The --force setting creates the object or updates it if it already exists
       # You can remove the "-- source" flag if your dbt_project.yml is at root of your repo
       - name: Create a new tester dbt project object in ${{ vars.SNOWFLAKE_DATABASE }}.${{ vars.SNOWFLAKE_SCHEMA }}
-        run: snow dbt deploy my_tester_dbt_project_object_gh_action --source ./tasty_bytes --force -x
+        run: snow dbt deploy my_tester_dbt_project_object_gh_action --source ./test --force -x
 
       - name: List all of the snowflake dbt project objects in your account
         run: snow dbt list -x
@@ -51,3 +51,5 @@ jobs:
 
       - name: Execute data quality test on tester dbt project object in ${{ vars.SNOWFLAKE_DATABASE }}.${{ vars.SNOWFLAKE_SCHEMA }}
         run: snow dbt execute -x my_tester_dbt_project_object_gh_action test --target dev
+
+        
